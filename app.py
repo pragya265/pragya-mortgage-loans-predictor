@@ -299,8 +299,8 @@ app.layout = html.Div(children=[
      Input(component_id='submit-val', component_property='n_clicks'),
     )
 def func(*args):
-    listofargs=[arg for arg in args[:9]]
-    return make_predictions(listofargs, args[9])
+    listofargs=[arg for arg in args[:10]]
+    return make_predictions(listofargs, args[10])
 
 
 ######### Define Callback: Visualization
