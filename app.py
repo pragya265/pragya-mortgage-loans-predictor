@@ -23,9 +23,9 @@ features = ['Credit_History',
 'CoapplicantIncome',
  'Property_Area',
  'Gender',
+ 'Married',
  'Education',
   'Self_Employed',
-    'Married'
  ]
 
 
@@ -95,6 +95,7 @@ def make_predictions(listofargs, Threshold):
            'ln_total_income', 'ln_LoanAmount']]
 
         prob = rf.predict_proba(df)
+        print(prob)
         raw_approval_prob=prob[0][1]
         Threshold=Threshold*.01
         approval_func = lambda y: 'Approved' if raw_approval_prob>Threshold else 'Denied'
@@ -123,9 +124,9 @@ def make_loans_cube(*args):
             ["<br>Education: {}".format(x) for x in approved['Education']],
             ["<br>Property Area: {}".format(x) for x in approved['Property_Area']],
             ["<br>Gender: {}".format(x) for x in approved['Gender']],
+            ["<br>Married: {}".format(x) for x in approved['Married']],
             ["<br>Education: {}".format(x) for x in approved['Education']],
-            ["<br>Self-Employed: {}".format(x) for x in approved['Self_Employed']],
-            ["<br>Married: {}".format(x) for x in approved['Married']]
+            ["<br>Self-Employed: {}".format(x) for x in approved['Self_Employed']]
                 )) ,
         hovertemplate =
             '<b>Loan Amount: $%{x:.0f}K</b>'+
@@ -146,9 +147,9 @@ def make_loans_cube(*args):
             ["<br>Education: {}".format(x) for x in denied['Education']],
             ["<br>Property Area: {}".format(x) for x in denied['Property_Area']],
             ["<br>Gender: {}".format(x) for x in denied['Gender']],
+            ["<br>Married: {}".format(x) for x in denied['Married']],
             ["<br>Education: {}".format(x) for x in denied['Education']],
-            ["<br>Self-Employed: {}".format(x) for x in denied['Self_Employed']],
-            ["<br>Married: {}".format(x) for x in approved['Married']]
+            ["<br>Self-Employed: {}".format(x) for x in denied['Self_Employed']]
                 )) ,
         hovertemplate =
             '<b>Loan Amount: $%{x:.0f}K</b>'+
@@ -169,9 +170,9 @@ def make_loans_cube(*args):
             ["<br>Education: {} ".format(x) for x in newdata['Education']],
             ["<br>Property Area: {}".format(x) for x in newdata['Property_Area']],
             ["<br>Gender: {}".format(x) for x in newdata['Gender']],
+            ["<br>Married: {}".format(x) for x in newdata['Married']],
             ["<br>Education: {}".format(x) for x in newdata['Education']],
             ["<br>Self-Employed: {}".format(x) for x in newdata['Self_Employed']],
-            ["<br>Married: {}".format(x) for x in approved['Married']]
                 )) ,
         hovertemplate =
             '<b>Loan Amount: $%{x:.0f}K</b>'+
@@ -230,16 +231,16 @@ app.layout = html.Div(children=[
                 dcc.Dropdown(id='Gender',
                     options=[{'label': i, 'value': i} for i in ['Male', 'Female']],
                     value='Female'),
+                html.Div('Married'),
+                dcc.Dropdown(id='Married',
+                    options=[{'label': i, 'value': i} for i in ['No','Yes']],
+                    value='No'),
                 html.Div('Education'),
                 dcc.Dropdown(id='Education',
                     options=[{'label': i, 'value': i} for i in ['Graduate', 'Not Graduate']],
                     value='Graduate'),
                 html.Div('Self Employed'),
                 dcc.Dropdown(id='Self_Employed',
-                    options=[{'label': i, 'value': i} for i in ['No','Yes']],
-                    value='No'),
-                html.Div('Married'),
-                dcc.Dropdown(id='Married',
                     options=[{'label': i, 'value': i} for i in ['No','Yes']],
                     value='No'),
                 html.Div('Approval Threshold'),
@@ -290,9 +291,9 @@ app.layout = html.Div(children=[
      State(component_id='CoapplicantIncome', component_property='value'),
      State(component_id='Property_Area', component_property='value'),
      State(component_id='Gender', component_property='value'),
+     State(component_id='Married', component_property='value'),
      State(component_id='Education', component_property='value'),
      State(component_id='Self_Employed', component_property='value'),
-     State(component_id='Married', component_property='value'),
      State(component_id='Threshold', component_property='value'),
 
      Input(component_id='submit-val', component_property='n_clicks'),
@@ -314,9 +315,9 @@ def func(*args):
             State(component_id='CoapplicantIncome', component_property='value'),
             State(component_id='Property_Area', component_property='value'),
             State(component_id='Gender', component_property='value'),
+            State(component_id='Married', component_property='value'),
             State(component_id='Education', component_property='value'),
             State(component_id='Self_Employed', component_property='value'),
-            State(component_id='Married', component_property='value'),
 
             Input(component_id='submit-val', component_property='n_clicks'),
     )
@@ -326,4 +327,4 @@ def vizfunc(*args):
 
 ############ Deploy
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(port=8081)
