@@ -110,7 +110,7 @@ def make_predictions(listofargs, Threshold):
 
 ## FUNCTION FOR VISUALIZATION
 def make_loans_cube(*args):
-    newdata=pd.DataFrame([args[:9]], columns=features)
+    newdata=pd.DataFrame([args[:10]], columns=features)
     newdata['Combined_Income']=newdata['ApplicantIncome'] + newdata['CoapplicantIncome']
 
     trace0=go.Scatter3d(
